@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class TrackerFrame extends JFrame
 {
-    public final String VERSION_NAME = "2.1";
+    public final String VERSION_NAME = "2.2";
     //Private Variables
     JMenuBar menuBar = new JMenuBar();
     JMenu fileKey = new JMenu("File");
@@ -19,7 +19,7 @@ public class TrackerFrame extends JFrame
     public TrackerFrame() //Default
     {
         Initialize();
-        ImageIcon icon = new ImageIcon(getClass().getResource("dnd.jpg"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("main/resources/dnd.jpg"));
         setIconImage(icon.getImage());
     }
 
@@ -195,10 +195,10 @@ public class TrackerFrame extends JFrame
     public void SaveFile()
     {
         //Get file name
-        String name = ChangeFilePath(true);
+        String name = ChangeFilePath(true) + ".enc";
 
         //Error check
-        if(name == null)
+        if(name.equals("-1.enc"))
         {
            return;
         }
@@ -222,9 +222,9 @@ public class TrackerFrame extends JFrame
             for(int i = 0; i < charList.getModel().getSize(); i++)
             {
                 //Check if has arrow
-                if(charList.getModel().getElementAt(i).contains("<-"))
+                if(charList.getModel().getElementAt(i).contains("←"))
                 {
-                    writer.write(charList.getModel().getElementAt(i).replaceAll("<-", "") + "\n");
+                    writer.write(charList.getModel().getElementAt(i).replaceAll("←", "") + "\n");
                 }
                 else
                 {
@@ -246,7 +246,7 @@ public class TrackerFrame extends JFrame
     {
         String fp = ChangeFilePath(false);
         //Check for null
-        if(fp == null)
+        if(fp.equals("-1"))
         {
             return;
         }
@@ -272,11 +272,13 @@ public class TrackerFrame extends JFrame
 
     private String ChangeFilePath(boolean isSave)
     {
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("ENC Files", "enc");
         fileChooser.setFileFilter(filter);
         fileChooser.setDialogTitle("Select a folder");
         int userSelection = 0;
+
+        //Change dialog options for clarity
         if(!isSave)
         {
             userSelection = fileChooser.showOpenDialog(this); //Open
@@ -291,12 +293,15 @@ public class TrackerFrame extends JFrame
             File fileToSave = fileChooser.getSelectedFile();
             return fileToSave.getAbsolutePath();
         }
-        return null;
+        else
+        {
+            return "-1";
+        }
     }
 
     public void ClearItem()
     {
-        String[] options = {"JList", "JTable", "Both", "Cancel"};
+        String[] options = {"Characters", "Tracker", "Both", "Cancel"};
         int i = JOptionPane.showOptionDialog(null, "Clear what?", "Clear", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         switch(i)

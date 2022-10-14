@@ -160,18 +160,18 @@ public class InitiativeTable extends JTable
 
         if(currentTurn >= getModel().getRowCount() - 1) //Reset turn order (back to top)
         {
-            String fixedName = getValueAt(currentTurn, 0).toString().replaceAll("<-", "");
+            String fixedName = getValueAt(currentTurn, 0).toString().replaceAll("←", "");
             setValueAt(fixedName, currentTurn, 0);
             currentTurn = 0;
-            setValueAt(getValueAt(currentTurn,0) + "<-", currentTurn, 0);
+            setValueAt(getValueAt(currentTurn,0) + "←", currentTurn, 0);
 
         }
         else
         {
-            String fixedName = getValueAt(currentTurn, 0).toString().replaceAll("<-", "");
+            String fixedName = getValueAt(currentTurn, 0).toString().replaceAll("←", "");
             setValueAt(fixedName, currentTurn, 0);
             currentTurn++;
-            setValueAt(getValueAt(currentTurn,0) + "<-", currentTurn, 0);
+            setValueAt(getValueAt(currentTurn,0) + "←", currentTurn, 0);
         }
     }
 
@@ -205,19 +205,19 @@ public class InitiativeTable extends JTable
             if(newMod.getValueAt(i, 0).equals(turnName) && !turnName.isEmpty() && players.size() > 2) //Add arrow
             {
                 currentTurn = i;
-                newMod.setValueAt(newMod.getValueAt(i,0) + "<-", i,0);
+                newMod.setValueAt(newMod.getValueAt(i,0) + "←", i,0);
             }
         }
 
         if (turnName.isEmpty()) //No other players
         {
-            newMod.setValueAt(newMod.getValueAt(0,0) + "<-", 0, 0);
+            newMod.setValueAt(newMod.getValueAt(0,0) + "←", 0, 0);
             currentTurn = 0;
         }
 
         if(!turnName.isEmpty() && players.size() <= 2) //Only two players, arrow at highest
         {
-            newMod.setValueAt(newMod.getValueAt(0,0) + "<-", 0, 0);
+            newMod.setValueAt(newMod.getValueAt(0,0) + "←", 0, 0);
             currentTurn = 0;
         }
         this.setModel(newMod);
@@ -239,7 +239,7 @@ public class InitiativeTable extends JTable
         }
         players.clear(); //Clear arraylist
         //Add init 20 back to the roll
-        Combatant countTwenty = new Combatant("Count 20<-", 20);
+        Combatant countTwenty = new Combatant("Count 20←", 20);
         currentTurn = 0;
         mod.setRowCount(1);
         mod.setValueAt(countTwenty.getName(), 0, 0);
@@ -262,9 +262,9 @@ public class InitiativeTable extends JTable
     {
         for(int i = 0; i < getRowCount(); i++)
         {
-            if(getValueAt(i, 0).toString().contains("<-"))
+            if(getValueAt(i, 0).toString().contains("←"))
             {
-                return getValueAt(i, 0).toString().replaceAll("<-", "");
+                return getValueAt(i, 0).toString().replaceAll("←", "");
             }
         }
         return "";
